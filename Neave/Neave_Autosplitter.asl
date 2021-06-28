@@ -7,6 +7,9 @@ state("Neave-Win64-Shipping")
 
 startup
 {
+    settings.Add("startonigtstart", true, "Start on IGT start");
+    settings.Add("startonanewgame", true, "Start on new game");
+
     settings.Add("cubesplits", true, "Split when touching a cube");
 
     vars.timerModel = new TimerModel { CurrentState = timer };
@@ -14,7 +17,8 @@ startup
 
 start
 {
-    return current.resets > old.resets;
+    return current.igt > 0 && old.igt == 0 && settings["startonigtstart"];
+    return current.resets > old.resets && settings["startonanewgame"];
 }
 
 split
