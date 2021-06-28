@@ -7,7 +7,7 @@ state("Neave-Win64-Shipping"){
 startup {
     settings.Add("startsettings", true, "Start");
         settings.Add("startonigtstart", true, "Start on IGT start", "startsettings");
-        settings.Add("startonanewgame", false, "Start on new game", "startsettings");
+        settings.Add("startonanewgame", true, "Start on new game", "startsettings");
 
     settings.Add("splitsettings", true, "Split");
         settings.Add("cubesplits", true, "Split when touching a cube", "splitsettings");
@@ -19,8 +19,13 @@ startup {
 }
 
 start{
+    if (old.resets < current.resets && settings["startonanewgame"])
+	{
+		vars.cube = current.cube;
+		return true;
+	}
+
     return old.igt == 0 && current.igt > 0 && settings["startonigtstart"];
-    return current.resets > old.resets && settings["startonanewgame"];
 }
 
 split{
