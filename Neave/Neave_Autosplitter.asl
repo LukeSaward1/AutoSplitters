@@ -2,6 +2,7 @@ state("Neave-Win64-Shipping"){
     int   cube               : 0x3478A28, 0x8, 0xD0;
     int   resets               : 0x345B5D8, 0xBB8;
     float igt                    : 0x34B8280, 0xD0, 0x3A8, 0xC0, 0x30, 0x30, 0x398, 0x360;
+    string64 levelname             : 0x347C218, 0x410, 0x0;
 }
 
 startup {
