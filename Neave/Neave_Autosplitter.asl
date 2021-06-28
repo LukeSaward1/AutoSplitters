@@ -14,9 +14,6 @@ startup {
 
     settings.Add("resetsettings", true, "Reset");
         settings.Add("resetonnewgame", true, "Reset on new game", "resetsettings");
-    
-    settings.Add("exitsettings", true, "Exit");
-        settings.Add("resetonexit", true, "Reset on game exit", "exitsettings");
 
     vars.timerModel = new TimerModel { CurrentState = timer };
 }
@@ -31,13 +28,9 @@ split{
 }
 
 reset{
-    return current.resets > old.resets && current.cube == 0;
+    return current.resets > old.resets && current.cube == 0 && settings["resetonnewgame"];
 }
 
 gameTime{
     return TimeSpan.FromSeconds(current.igt);
-}
-
-exit{
-    vars.timerModel.Reset();
 }
