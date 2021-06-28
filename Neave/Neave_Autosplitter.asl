@@ -14,7 +14,7 @@ startup {
 
     settings.Add("resetsettings", true, "Reset");
         settings.Add("resetonnewgame", true, "Reset on new game", "resetsettings");
-
+    
     vars.timerModel = new TimerModel { CurrentState = timer };
 }
 
@@ -24,7 +24,6 @@ start{
 		vars.cube = current.cube;
 		return true;
 	}
-
     return old.igt == 0 && current.igt > 0 && settings["startonigtstart"];
 }
 
