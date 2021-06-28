@@ -1,43 +1,43 @@
-state("Neave-Win64-Shipping")
-{
+state("Neave-Win64-Shipping"){
     int   cube               : 0x3478A28, 0x8, 0xD0;
     int   resets               : 0x345B5D8, 0xBB8;
     float igt                    : 0x34B8280, 0xD0, 0x3A8, 0xC0, 0x30, 0x30, 0x398, 0x360;
 }
 
-startup
-{
-    settings.Add("startonigtstart", true, "Start on IGT start");
-    settings.Add("startonanewgame", true, "Start on new game");
+startup {
+    settings.Add("startsettings", true, "Start");
+        settings.Add("startonigtstart", true, "Start on IGT start", "startsettings");
+        settings.Add("startonanewgame", false, "Start on new game", "startsettings");
 
-    settings.Add("cubesplits", true, "Split when touching a cube");
+    settings.Add("splitsettings", true, "Split");
+        settings.Add("cubesplits", true, "Split when touching a cube", "splitsettings");
+
+    settings.Add("resetsettings", true, "Reset");
+        settings.Add("resetonnewgame", true, "Reset on new game", "resetsettings");
+    
+    settings.Add("exitsettings", true, "Exit");
+        settings.Add("resetonexit", true, "Reset on game exit", "exitsettings");
 
     vars.timerModel = new TimerModel { CurrentState = timer };
 }
 
-start
-{
-    return current.igt > 0 && old.igt == 0 && settings["startonigtstart"];
+start{
+    return old.igt == 0 && current.igt > 0 && settings["startonigtstart"];
     return current.resets > old.resets && settings["startonanewgame"];
 }
 
-split
-{
-    return
-        current.cube > old.cube && settings["cubesplits"];
+split{
+    return current.cube > old.cube && settings["cubesplits"];
 }
 
-reset
-{
+reset{
     return current.resets > old.resets && current.cube == 0;
 }
 
-gameTime
-{
+gameTime{
     return TimeSpan.FromSeconds(current.igt);
 }
 
-exit
-{
+exit{
     vars.timerModel.Reset();
 }
