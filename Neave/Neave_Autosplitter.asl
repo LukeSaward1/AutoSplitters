@@ -18,7 +18,22 @@ startup {
         settings.Add("resetonmainmenu", false, "Reset on main menu", "resetsettings");
     
     vars.timerModel = new TimerModel { CurrentState = timer };
-    vars.cube = 0;
+}
+
+update{
+    if(current.levelName != old.levelName && current.levelName == "/Game/Maps/StartMenu" && settings["resetonmainmenu"]){
+        vars.timerModel.Reset();
+    }
+
+    if (old.resets < current.resets && settings["startonanewgame"]){
+		vars.timerModel.Start();
+	}
+
+	if (old.resets < current.resets){
+		if (current.cube == 0 && settings.ResetEnabled){
+			vars.timerModel.Reset();
+        }
+	}
 }
 
 start{
@@ -35,26 +50,6 @@ reset{
 
 exit{
     vars.timerModel.Reset();
-}
-
-update{
-    if(current.levelName != old.levelName && current.levelName == "/Game/Maps/StartMenu" && settings["resetonmainmenu"]){
-        vars.timerModel.Reset();
-    }
-
-    if (old.resets < current.resets && settings["startonanewgame"])
-	{
-		vars.timerModel.Start();
-	}
-
-	if (old.resets < current.resets)
-	{
-		vars.cube = 0;
-		if (settings.ResetEnabled)
-        {
-			vars.timerModel.Reset();
-        }
-	}
 }
 
 gameTime{
