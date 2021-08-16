@@ -1,43 +1,40 @@
 state("Ursa-Win64-Shipping")
 {
-    //             UrsaMiniMap.GameState.PlayerArray[0].PawnPrivate.time
-    float igt    : 0x4005240, 0x130, 0x238, 0x0, 0x280, 0x3A4;
-
-    //             UrsaMiniMap.UrsaGameInstance.datapads
-    int datapads : 0x4005240, 0x188, 0x1B0;
-
-    //             UrsaMiniMap.UrsaGameInstance.beacon
-    int beacons  : 0x4005240, 0x188, 0x1B8;
+	bool  isTrackingTime  : 0x4005240, 0x130, 0x238, 0x0, 0x280, 0x3A0;
+	float Time            : 0x4005240, 0x130, 0x238, 0x0, 0x280, 0x3A4;
+	int   DataPadsCount   : 0x4005240, 0x188, 0x1B0;
+	int   BeaconCount     : 0x4005240, 0x188, 0x1B8;
 }
 
 startup
 {
-    settings.Add("beacons", true, "Split when activating a beacon");
-    settings.Add("datapads", true, "Split when reading a datapad");;
+	settings.Add("beacons", true, "Split when activating a beacon");
+	settings.Add("datapads", true, "Split when reading a datapad");
 }
 
 start
 {
-    return old.igt == 0 && current.igt > 0;
+	return !old.isTrackingTime && current.isTrackingTime && old.Time == 0f;
 }
 
 split
 {
-    return old.datapads < current.datapads && settings["datapads"] ||
-           old.beacons < current.beacons && settings["beacons"];
+	return old.DataPadsCount < current.DataPadsCount && settings["datapads"] ||
+	       old.BeaconCount < current.BeaconCount && settings["beacons"] ||
+	       old.isTrackingTime && !current.isTrackingTime;
 }
 
 reset
 {
-    return old.igt == 0;
+	return old.isTrackingTime && !current.isTrackingTime && current.Time == 0f;
 }
 
 gameTime
 {
-    return TimeSpan.FromSeconds(current.igt);
+	return TimeSpan.FromSeconds(current.Time);
 }
 
 isLoading
 {
-    return true;
+	return true;
 }
