@@ -1,45 +1,40 @@
-state("Ursa-Win64-Shipping"){
-    float igt                    : 0x3F79D48, 0x10, 0x240, 0x2B0, 0xD0, 0x0, 0xA0, 0x3A4;
-    int beacons                      : 0x3EC7678, 0x2D8, 0x2B0, 0x390, 0x220, 0xB0, 0x80, 0x1B8;
-    int datapads                      : 0x4007950, 0x598, 0xA0, 0x438, 0x30, 0x58, 0x1B0;
+state("Ursa-Win64-Shipping")
+{
+	bool  isTrackingTime  : 0x4005240, 0x130, 0x238, 0x0, 0x280, 0x3A0;
+	float Time            : 0x4005240, 0x130, 0x238, 0x0, 0x280, 0x3A4;
+	int   DataPadsCount   : 0x4005240, 0x188, 0x1B0;
+	int   BeaconCount     : 0x4005240, 0x188, 0x1B8;
 }
 
-startup {
-    settings.Add("splitsettings", true, "Split");
-        settings.Add("beaconsplits", true, "Split when activating a beacon", "splitsettings");
-        settings.Add("datapadsplits", true, "Split when reading a datapad", "splitsettings");
-
-    settings.Add("resetsettings", true, "Reset");
-        settings.Add("resetonnewgame", true, "Reset on new game", "resetsettings");
-
-    vars.timerModel = new TimerModel { CurrentState = timer };
+startup
+{
+	settings.Add("beacons", true, "Split when activating a beacon");
+	settings.Add("datapads", true, "Split when reading a datapad");
 }
 
-update{
-    if(current.datapads > old.datapads && settings["datapadsplits"]){
-        vars.timerModel.Split();
-    }
-    if(current.beacons > old.beacons && settings["beaconsplits"]){
-        vars.timerModel.Split();
-    }
+start
+{
+	return !old.isTrackingTime && current.isTrackingTime && old.Time == 0f;
 }
 
-start{
-    return old.igt == 0 && current.igt > 0;
+split
+{
+	return old.DataPadsCount < current.DataPadsCount && settings["datapads"] ||
+	       old.BeaconCount < current.BeaconCount && settings["beacons"] ||
+	       old.isTrackingTime && !current.isTrackingTime;
 }
 
-split{
-    return false;
+reset
+{
+	return old.isTrackingTime && !current.isTrackingTime && current.Time == 0f;
 }
 
-reset{
-    return old.igt == 0;
+gameTime
+{
+	return TimeSpan.FromSeconds(current.Time);
 }
 
-gameTime{
-    return TimeSpan.FromSeconds(current.igt);
-}
-
-isLoading{
-    return true;
+isLoading
+{
+	return true;
 }
