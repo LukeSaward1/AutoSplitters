@@ -1,12 +1,13 @@
 state("Do It For Me V1.0.1", "v1.0.1")
 {
   float igt : "UnityPlayer.dll", 0x1469F30, 0x10, 0x3A8, 0x140;
-  byte puppetGiven : "UnityPlayer.dll", 0x1469F30, 0x358, 0x80, 0x9B;
-  byte awakeGiven : "UnityPlayer.dll", 0x1469F30, 0x358, 0x80, 0x9C;
-  byte psychoGiven : "UnityPlayer.dll", 0x1469F30, 0x358, 0x80, 0x9D;
-  byte innocentLoveGiven : "UnityPlayer.dll", 0x1469F30, 0x358, 0x80, 0x9E;
-  byte blindLoveGiven : "UnityPlayer.dll", 0x1469F30, 0x358, 0x80, 0x9F;
+  byte puppetGiven : "UnityPlayer.dll", 0x1469F30, 0x10, 0x3A8, 0x162;
+  byte awakeGiven : "UnityPlayer.dll", 0x1469F30, 0x10, 0x3A8, 0x160;
+  byte psychoGiven : "UnityPlayer.dll", 0x1469F30, 0x10, 0x3A8, 0x164;
+  byte innocentLoveGiven : "UnityPlayer.dll", 0x1469F30, 0x10, 0x3A8, 0x163;
+  byte blindLoveGiven : "UnityPlayer.dll", 0x1469F30, 0x10, 0x3A8, 0x161;
   int endingCount : "UnityPlayer.dll", 0x1469F30, 0x10, 0x3A8, 0x15C;
+  int checkpointCount : "UnityPlayer.dll", 0x146AC68, 0x128, 0x80, 0x50;
   string128 sceneName : "UnityPlayer.dll", 0x1469F30, 0x10, 0x3A8, 0x28, 0x14;
 }
 
@@ -28,7 +29,8 @@ startup
 
     settings.Add("extras", true, "Extras");
     settings.Add("first_cutscene", true, "Split on finishing first cutscene", "extras");
-    vars.timerModel = new TimerModel { CurrentState = timer };
+    settings.Add("checkpoint", false, "Split on entering the next checkpoint", "extras");
+  vars.timerModel = new TimerModel { CurrentState = timer };
 }
 
 init
@@ -76,7 +78,7 @@ update {
   {
     vars.timerModel.Split();
   }
-  if(current.sceneName == "Ending3Psychopath" && old.sceneName == "Level4" && settings["section4"] && settings.SplitEnabled) // Hallway Split (Psychopath)
+  if(current.sceneName == "Ending3Psycho" && old.sceneName == "Level4" && settings["section4"] && settings.SplitEnabled) // Hallway Split (Psychopath)
   {
     vars.timerModel.Split();
   }
@@ -96,11 +98,7 @@ update {
   {
     vars.timerModel.Split();
   }
-  if(current.psychoGiven == 1 && current.psychoGiven != old.psychoGiven && old.psychoGiven == 0 && settings["puppet_ending"] && settings.SplitEnabled) // Psychopath Ending Split
-  {
-    vars.timerModel.Split();
-  }
-  if(current.innocentLoveGiven == 1 && current.innocentLoveGiven != old.innocentLoveGiven && old.innocentLoveGiven == 0 && settings["innocentlove_ending"] && settings.SplitEnabled) // Innocent Love Ending Split
+  if(current.psychoGiven == 1 && current.psychoGiven != old.psychoGiven && old.psychoGiven == 0 && settings["psychopath_ending"] && settings.SplitEnabled) // Psychopath Ending Split
   {
     vars.timerModel.Split();
   }
@@ -113,6 +111,10 @@ update {
     vars.timerModel.Split();
   }
   if(current.sceneName == "Level1" && old.sceneName == "FirstCutscene" && settings["first_cutscene"] && settings.SplitEnabled) // First Cutscene Split
+  {
+    vars.timerModel.Split();
+  }
+  if(current.checkpointCount > old.checkpointCount && current.checkpointCount < 8 && old.sceneName == current.sceneName && settings["checkpoint"])
   {
     vars.timerModel.Split();
   }
