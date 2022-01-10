@@ -1,7 +1,6 @@
 state("Neave-Win64-Shipping"){
     int   cube               : 0x347C218, 0x170, 0x170;
-    int   resets               : 0x345B5D8, 0xBB8;
-    float igt                    : 0x3391B08, 0x28, 0x228, 0x10, 0x360;
+    float igt                    : 0x347C218, 0x170, 0x38, 0x0, 0x30, 0x258, 0x740, 0x360;
     string64 levelName             : 0x347C218, 0x410, 0x0;
 }
 
@@ -25,14 +24,14 @@ update{
         vars.timerModel.Reset();
     }
 
-    if (old.resets < current.resets && settings["startonanewgame"]){
-		vars.timerModel.Start();
-	}
-
-	if (old.resets < current.resets){
-		if (current.cube == 0 && settings.ResetEnabled){
+	if (current.levelName != old.levelName){
+		if (current.cube == 0 && settings.ResetEnabled && settings["resetonnewgame"]){
 			vars.timerModel.Reset();
         }
+	}
+
+    if (current.levelName != old.levelName && current.levelName == "/Game/Maps/TheWorldReborn" && settings["startonanewgame"]){
+		vars.timerModel.Start();
 	}
 }
 
