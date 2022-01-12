@@ -1,10 +1,12 @@
-state("Neave-Win64-Shipping"){
+state("Neave-Win64-Shipping")
+{
     int   cube               : 0x347C218, 0x170, 0x170;
-    float igt                    : 0x347C218, 0x170, 0x38, 0x0, 0x30, 0x258, 0x740, 0x360;
+    float Time                    : 0x347C218, 0x170, 0x38, 0x0, 0x30, 0x258, 0x740, 0x360;
     string64 levelName             : 0x347C218, 0x410, 0x0;
 }
 
-startup {
+startup
+{
     settings.Add("startsettings", true, "Start");
         settings.Add("startonigtstart", true, "Start on IGT start", "startsettings");
         settings.Add("startonanewgame", false, "Start on new game", "startsettings");
@@ -19,42 +21,50 @@ startup {
     vars.timerModel = new TimerModel { CurrentState = timer };
 }
 
-update{
-    if(current.levelName != old.levelName && current.levelName == "/Game/Maps/StartMenu" && settings["resetonmainmenu"]){
+update
+{
+    if(current.levelName != old.levelName && current.levelName == "/Game/Maps/StartMenu" && settings.ResetEnabled && settings["resetonmainmenu"])
+    {
         vars.timerModel.Reset();
     }
 
-	if (current.levelName != old.levelName){
-		if (current.cube == 0 && settings.ResetEnabled && settings["resetonnewgame"]){
-			vars.timerModel.Reset();
-        }
+	if (current.levelName != old.levelName && current.cube == 0 && settings.ResetEnabled && settings["resetonnewgame"])
+    {
+		vars.timerModel.Reset();
 	}
 
-    if (current.levelName != old.levelName && current.levelName == "/Game/Maps/TheWorldReborn" && settings["startonanewgame"]){
+    if (current.levelName != old.levelName && current.levelName == "/Game/Maps/TheWorldReborn" && settings.StartEnabled && settings["startonanewgame"])
+    {
 		vars.timerModel.Start();
 	}
 }
 
-start{
-    return old.igt == 0 && current.igt > 0 && settings["startonigtstart"];
+start
+{
+    return old.Time == 0 && current.Time > 0 && settings["startonigtstart"];
 }
 
-split{
+split
+{
     return current.cube > old.cube && settings["cubesplits"];
 }
 
-reset{
+reset
+{
     return false;
 }
 
-exit{
+exit
+{
     vars.timerModel.Reset();
 }
 
-gameTime{
-    return TimeSpan.FromSeconds(current.igt);
+gameTime
+{
+    return TimeSpan.FromSeconds(current.Time);
 }
 
-isLoading{
+isLoading
+{
     return true;
 }
