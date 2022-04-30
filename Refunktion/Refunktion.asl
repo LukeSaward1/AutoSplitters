@@ -68,7 +68,6 @@ split
     {
         if (split.Value(old, current)){
             return settings[split.Key];
-            print("VARS.SPLITCOUNT: " + vars.SplitCount.ToString());
         }
     }
     if(old.doorAnimationProgress != current.doorAnimationProgress && current.doorAnimationProgress < 0f && current.isLoading == true && current.levelName == "/Game/Maps/LevelHub1")
