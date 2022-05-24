@@ -14,7 +14,7 @@ state("PerfectVermin-Win64-Shipping", "Latest Steam/Itch")
     int furnitureLeft:        0x2F8E9F8, 0xF0, 0x410;
     string128 mapName:        0x2F8E9F8, 0x6F8, 0x0;
 }
-state("PerfectVermin-Win64-Shipping", "Vanilla - TV")
+state("PerfectVermin-Win64-Shipping", "Vanilla - Terminal Velocity")
 {
     bool canPause:            0x2F8A778, 0x140, 0x38, 0x0, 0x30, 0x380, 0x838;
     bool canMove:             0x2F8A778, 0x140, 0x38, 0x0, 0x30, 0x380, 0x871;
