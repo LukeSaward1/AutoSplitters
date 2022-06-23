@@ -3,6 +3,7 @@ LiveSplit autosplitters that I've helped develop/developed myself.
 
 ## List of autosplitters
  - Do It For Me
+ - Hungry Pumkin
  - MEANDERS
  - NEAVE
  - Nekour
