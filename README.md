@@ -12,5 +12,6 @@ LiveSplit autosplitters that I've helped develop/developed myself.
  - Refunktion
  - Speedrun: The Game
  - The Impossible Quiz
+ - The Impossible Quiz 2
  - Ursa
  - Wubbzy's Amazing Adventure
