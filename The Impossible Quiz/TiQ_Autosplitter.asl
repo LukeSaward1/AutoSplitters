@@ -36,7 +36,7 @@ start {
 }
 
 split {
-    return old.Scene != current.Scene && settings["s" + current.Scene];
+    return old.scene != current.scene && settings["s" + current.scene];
 }
 
 reset {
