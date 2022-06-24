@@ -9,16 +9,17 @@ state("flashplayer_32_sa", "Flash Player 32 SA") {
 }
 
 startup {
-    settings.Add("q33", true, "Split upon finishing Q33");
-    settings.Add("q67", true, "Split upon finishing Q67");
-    settings.Add("q83", true, "Split upon finishing Q83");
-    settings.Add("q91", true, "Split upon finishing Q91");
-    settings.Add("q100", true, "Split upon finishing Q100");
-    settings.Add("q101", true, "Split upon finishing Q101");
-    settings.Add("q102", true, "Split upon finishing Q102");
-    settings.Add("q103", true, "Split upon finishing Q103");
-    settings.Add("q107", true, "Split upon finishing Q107");
-    settings.Add("q108", true, "Split upon finishing Q108");
+    settings.Add("s71", true, "Split upon finishing Q33");
+    settings.Add("s141", true, "Split upon finishing Q67");
+    settings.Add("s176", true, "Split upon finishing Q83");
+    settings.Add("s184", true, "Split upon finishing Q91");
+    settings.Add("s193", true, "Split upon finishing Q100");
+    settings.Add("s196", true, "Split upon finishing Q101");
+    settings.Add("s197", true, "Split upon finishing Q102");
+    settings.Add("s199", true, "Split upon finishing Q103");
+    settings.Add("s209", true, "Split upon finishing Q107");
+    settings.Add("s211", true, "Split upon finishing Q108");
+    settings.Add("s222", true, "Split upon finishing Game");
 }
 
 init {
@@ -35,18 +36,9 @@ start {
 }
 
 split {
-    return current.scene == 222 && current.scene != old.scene
-    || current.scene == 71 && current.scene != old.scene && settings["q33"]
-    || current.scene == 141 && current.scene != old.scene && settings["q67"]
-    || current.scene == 176 && current.scene != old.scene && settings["q83"]
-    || current.scene == 184 && current.scene != old.scene && settings["q91"]
-    || current.scene == 193 && current.scene != old.scene && settings["q100"]
-    || current.scene == 196 && current.scene != old.scene && settings["q101"]
-    || current.scene == 197 && current.scene != old.scene && settings["q102"]
-    || current.scene == 199 && current.scene != old.scene && settings["q103"]
-    || current.scene == 209 && current.scene != old.scene && settings["q107"]
-    || current.scene == 211 && current.scene != old.scene && settings["q108"];
+    return old.Scene != current.Scene && settings["s" + current.Scene];
 }
+
 reset {
     return current.scene == 0 && current.scene != old.scene;
 }
