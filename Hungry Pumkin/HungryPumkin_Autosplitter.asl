@@ -1,4 +1,7 @@
-state("flashplayer_32_sa") {
+state ("flashplayer_11_sa_32bit", "Flash Player 11"){
+    int scene : 0x7336D0, 0x420, 0xE8;
+}
+state ("flashplayer_32_sa", "Flash Player 32 SA") {
     int scene : 0xC95B64, 0x24, 0xA8C, 0x4, 0x2C, 0x50, 0x264, 0x4C;
 }
 
@@ -12,6 +15,13 @@ startup {
 }
 
 init {
+    var mms = modules.First().ModuleMemorySize;
+    print(mms.ToString("X2"));
+    switch (mms) {
+        case 0x892000: version = "Flash Player 11"; break;
+        case 0x1034000: version = "Flash Player 32 SA"; break;
+    }
+
     vars.foodWrong = 0;
     vars.foodCorrect = 0;
 }
