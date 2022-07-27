@@ -3,13 +3,13 @@ state("flashplayer_32_sa") {
 }
 
 startup {
-    settings.Add("tunnel", true, "Split upon selecting the Tunnel option");
-    settings.Add("tnt", true, "Split upon selecting the Explosion option");
-    settings.Add("lazer", true, "Split upon selecting the Lazer Drill option");
-    settings.Add("ball", true, "Split upon selecting the Wrecking Ball option");
-    settings.Add("tele", true, "Split upon selecting the Teleporter option");
-    settings.Add("bag", true, "Split upon selecting the Teleporter option");
-    settings.Add("arrest", true, "Split upon fadeout after Henry is caught");
+    settings.Add("s161", true, "Split upon selecting the Tunnel option");
+    settings.Add("s764", true, "Split upon selecting the Explosion option");
+    settings.Add("s1251", true, "Split upon selecting the Lazer Drill option");
+    settings.Add("s1650", true, "Split upon selecting the Wrecking Ball option");
+    settings.Add("s2359", true, "Split upon selecting the Teleporter option");
+    settings.Add("s2735", true, "Split upon selecting the Teleporter option");
+    settings.Add("s4035", true, "Split upon fadeout after Henry is caught");
 
     settings.Add("special", false, "Special");
         settings.Add("refresh", false, "Do not reset on refresh", "special");
@@ -20,13 +20,7 @@ start {
 }
 
 split {
-    return current.scene == 161 && current.scene != old.scene && settings["tunnel"]
-    || current.scene == 764 && current.scene != old.scene && settings["tnt"]
-    || current.scene == 1251 && current.scene != old.scene && settings["lazer"]
-    || current.scene == 1650 && current.scene != old.scene && settings["ball"]
-    || current.scene == 2359 && current.scene != old.scene && settings["tele"]
-    || current.scene == 2735 && current.scene != old.scene && settings["bag"]
-    || current.scene == 4035 && current.scene != old.scene && settings["arrest"];
+    return old.scene != current.scene && settings["s" + current.scene];
 }
 
 reset {
