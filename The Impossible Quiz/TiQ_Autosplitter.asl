@@ -40,5 +40,5 @@ split {
 }
 
 reset {
-    return current.scene == 0 && current.scene != old.scene;
+    return (current.scene == 0 || current.scene == 1) && current.scene != old.scene;
 }
