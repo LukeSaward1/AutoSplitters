@@ -9,17 +9,25 @@ state("flashplayer_32_sa", "Flash Player 32 SA") {
 }
 
 startup {
-    settings.Add("s71", true, "Split upon finishing Q33");
-    settings.Add("s141", true, "Split upon finishing Q67");
-    settings.Add("s176", true, "Split upon finishing Q83");
-    settings.Add("s184", true, "Split upon finishing Q91");
-    settings.Add("s193", true, "Split upon finishing Q100");
-    settings.Add("s196", true, "Split upon finishing Q101");
-    settings.Add("s197", true, "Split upon finishing Q102");
-    settings.Add("s199", true, "Split upon finishing Q103");
-    settings.Add("s209", true, "Split upon finishing Q107");
-    settings.Add("s211", true, "Split upon finishing Q108");
-    settings.Add("s222", true, "Split upon finishing Game");
+    settings.Add("hundredpercent", true, "100%");
+    settings.Add("s71", true, "Split upon finishing Q33", "hundredpercent");
+    settings.Add("s141", true, "Split upon finishing Q67", "hundredpercent");
+    settings.Add("s176", true, "Split upon finishing Q83", "hundredpercent");
+    settings.Add("s184", true, "Split upon finishing Q91", "hundredpercent");
+    settings.Add("s193", true, "Split upon finishing Q100", "hundredpercent");
+
+
+    settings.Add("epicten", false, "Epic 10%");
+    settings.Add("s196", true, "Split upon finishing Q101", "epicten");
+    settings.Add("s197", true, "Split upon finishing Q102", "epicten");
+    settings.Add("s199", true, "Split upon finishing Q103", "epicten");
+    settings.Add("s201", true, "Split upon finishing Q104", "epicten");
+    settings.Add("s204", true, "Split upon finishing Q105", "epicten");
+    settings.Add("s205", true, "Split upon finishing Q106", "epicten");
+    settings.Add("s210", true, "Split upon finishing Q106", "epicten");
+    settings.Add("s211", true, "Split upon finishing Q108", "epicten");
+    settings.Add("s213", true, "Split upon finishing Q109", "epicten");
+    settings.Add("s222", true, "Split upon finishing Game", "epicten");
 }
 
 init {
@@ -32,7 +40,11 @@ init {
 }
 
 start {
-    return current.scene == 2 && current.scene != old.scene;
+    if (settings["hundredpercent"]) {
+        return current.scene == 2 && current.scene != old.scene;
+    } else {
+        return current.scene == 193 && current.scene != old.scene;
+    }
 }
 
 split {
