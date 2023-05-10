@@ -24,7 +24,7 @@ startup {
     settings.Add("s201", true, "Split upon finishing Q104", "epicten");
     settings.Add("s204", true, "Split upon finishing Q105", "epicten");
     settings.Add("s205", true, "Split upon finishing Q106", "epicten");
-    settings.Add("s210", true, "Split upon finishing Q106", "epicten");
+    settings.Add("s210", true, "Split upon finishing Q107", "epicten");
     settings.Add("s211", true, "Split upon finishing Q108", "epicten");
     settings.Add("s213", true, "Split upon finishing Q109", "epicten");
     settings.Add("s222", true, "Split upon finishing Game", "epicten");
