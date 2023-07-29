@@ -1,4 +1,4 @@
-state("ProjectCat-Win32-Shipping")
+state("ProjectCat-Win32-Shipping", "V1.0")
 {
     int maxDiamondCount      : 0x23F1550, 0xE4, 0x100;
     int diamondCount         : 0x23F1550, 0xE4, 0x104;
@@ -8,7 +8,30 @@ state("ProjectCat-Win32-Shipping")
     bool hasGreenKey         : 0x23F1550, 0xE4, 0x10B;
     bool hasUnlockedBridge   : 0x23F1550, 0xE4, 0x10C;
     string64 levelName       : 0x23F1550, 0x2C8, 0x0;
-    string64 alwaysLevelName : 0x23EF8E8, 0x64C, 0x0;
+}
+state("ProjectCat-Win64-Shipping", "V1.1")
+{
+    int maxDiamondCount      : 0x4A3CD30, 0x180, 0x1B0;
+    int diamondCount         : 0x4A3CD30, 0x180, 0x1B4;
+    bool hasRedKey           : 0x4A3CD30, 0x180, 0x1B8;
+    bool hasBlueKey          : 0x4A3CD30, 0x180, 0x1B9;
+    bool hasYellowKey        : 0x4A3CD30, 0x180, 0x1BA;
+    bool hasGreenKey         : 0x4A3CD30, 0x180, 0x1BB;
+    bool hasUnlockedBridge   : 0x4A3CD30, 0x180, 0x1BC;
+    string64 levelName       : 0x4A3CD30, 0x4A8, 0x0;
+}
+
+init
+{
+    // MD5 code by CptBrian.
+    string MD5Hash;
+    using (var md5 = System.Security.Cryptography.MD5.Create())
+        using (var s = File.Open(modules.First().FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            MD5Hash = md5.ComputeHash(s).Select(x => x.ToString("X2")).Aggregate((a, b) => a + b);
+        switch (MD5Hash) {
+        case "B0037E8E52A7062A05139FB89D5413D4": version = "v1.0"; break;
+        case "E52DDC172CC0E113B37CACD161A8BCD4": version = "v1.1"; break;
+    }
 }
 
 startup
@@ -21,7 +44,7 @@ startup
         { "yellowkeysplit",    (_o, _c) => !_o.hasYellowKey && _c.hasYellowKey },
         { "greenkeysplit",     (_o, _c) => !_o.hasGreenKey && _c.hasGreenKey },
         { "bridgeunlocksplit", (_o, _c) => !_o.hasUnlockedBridge && _c.hasUnlockedBridge },
-        { "enterheavensplit",  (_o, _c) => _o.alwaysLevelName != _c.alwaysLevelName && _c.alwaysLevelName == "/Game/Maps/Heaven" }
+        { "enterheavensplit",  (_o, _c) => _o.levelName != _c.levelName && _c.levelName == "/Game/Maps/Heaven" }
     };
 
     settings.Add("diamondsplit", true, "Split upon collecting all 200 diamonds");
